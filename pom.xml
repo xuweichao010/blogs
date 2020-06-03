@@ -12,6 +12,7 @@
     <artifactId>blogs</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>blogs</name>
+    <packaging>jar</packaging>
     <description>个人博客</description>
 
     <properties>
@@ -22,16 +23,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-
-
         <!-- 快速构建API -->
         <dependency>
             <groupId>io.springfox</groupId>
@@ -49,6 +40,32 @@
             <version>${swagger.ui.version}</version>
         </dependency>
 
+        <!-- Web配置 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!-- 数据访问层配置 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>2.1.2</version>
+        </dependency>
 
         <!-- 项目控制 -->
         <dependency>
@@ -60,6 +77,19 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+
+        <!-- 工具配置 -->
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-core</artifactId>
+            <version>11.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.47</version>
+        </dependency>
+
 
         <!-- 项目测试 -->
         <dependency>
@@ -83,5 +113,26 @@
             </plugin>
         </plugins>
     </build>
+    <repositories>
+        <repository>
+            <id>aliyun-repo</id>
+            <name>Aliyun</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>spring-repo</id>
+            <name>Spring</name>
+            <url>http://repo.spring.io.snapshot</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
 </project>
