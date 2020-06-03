@@ -31,26 +31,11 @@ import java.util.*;
 public class BaiduRpcConfig {
 
     @Autowired
-    private final FeignDecoder feignDecoder;
-    @Autowired
-    private final FeignEncoder feignEncoder;
-    @Autowired
-    private final Slf4jLogger slf4JLogger;
-    @Autowired
-    private final Logger.Level level;
-
-    public BaiduRpcConfig(FeignDecoder feignDecoder, FeignEncoder feignEncoder, Slf4jLogger slf4JLogger, Logger.Level level) {
-        this.feignDecoder = feignDecoder;
-        this.feignEncoder = feignEncoder;
-        this.slf4JLogger = slf4JLogger;
-        this.level = level;
-    }
+    private FeignConfig feignConfig;
 
     @Bean
     public BaiduMapRpc baiduMapRpc() {
-        return Feign.builder().logger(slf4JLogger).logLevel(level)
-                .decoder(feignDecoder).encoder(feignEncoder).requestInterceptor(baiduInterceptor())
-                .target(BaiduMapRpc.class, baiduMapProperties().getUrl());
+        return feignConfig.buildRpc(BaiduMapRpc.class, baiduMapProperties().getUrl(), baiduInterceptor());
     }
 
     @Bean

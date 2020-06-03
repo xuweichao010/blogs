@@ -26,11 +26,14 @@ import java.lang.reflect.WildcardType;
  * 时间：2020/6/3 17:27
  * 描述：Feign 远程调用解析类
  */
-@Component
+
 public class FeignDecoder implements Decoder {
 
-    @Autowired
     private ObjectFactory<HttpMessageConverters> messageConverters;
+
+    public FeignDecoder(ObjectFactory<HttpMessageConverters> messageConverters) {
+        this.messageConverters = messageConverters;
+    }
 
     @Override
     public Object decode(Response response, Type type) throws IOException, DecodeException, FeignException {

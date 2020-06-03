@@ -27,11 +27,14 @@ import org.springframework.stereotype.Component;
  * 时间：2020/6/3 17:27
  * 描述：Feign 远程调用封装类
  */
-@Component
+
 public class FeignEncoder implements Encoder {
 
-    @Autowired
     private ObjectFactory<HttpMessageConverters> messageConverters;
+
+    public FeignEncoder(ObjectFactory<HttpMessageConverters> messageConverters) {
+        this.messageConverters = messageConverters;
+    }
 
     @Override
     public void encode(Object requestBody, Type bodyType, RequestTemplate request)

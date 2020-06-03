@@ -1,6 +1,8 @@
 package com.cccloud.blogs;
 
 import com.alibaba.fastjson.JSONObject;
+import com.cccloud.blogs.config.feign.baidu.BaiduJsonMessage;
+import com.cccloud.blogs.config.feign.baidu.dto.IpLocationDto;
 import com.cccloud.blogs.open.baidu.BaiduMapRpc;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +16,9 @@ class BlogsApplicationTests {
 
 	@Test
 	void contextLoads() {
-		Object o = baiduMapRpc.ipLocation("49.211.109.237");
-		System.out.println(JSONObject.toJSONString(o));
-
+		BaiduJsonMessage<IpLocationDto> message = baiduMapRpc.ipLocation("49.211.109.237");
+		System.out.println(message.getStatus());
+		System.out.println(JSONObject.toJSONString(message.getContent().getAddressDetail()));
 	}
 
 }

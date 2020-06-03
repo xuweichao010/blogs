@@ -1,5 +1,7 @@
 package com.cccloud.blogs.open.baidu;
 
+import com.cccloud.blogs.config.feign.baidu.BaiduJsonMessage;
+import com.cccloud.blogs.config.feign.baidu.dto.IpLocationDto;
 import feign.Param;
 import feign.RequestLine;
 
@@ -11,5 +13,5 @@ import feign.RequestLine;
 public interface BaiduMapRpc {
 
     @RequestLine("GET /location/ip?ip={ip}&coor=bd09ll")
-    Object ipLocation(@Param("ip") String ip);
+    BaiduJsonMessage<IpLocationDto> ipLocation(@Param("ip") String ip);
 }
