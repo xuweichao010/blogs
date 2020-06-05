@@ -29,7 +29,7 @@ import java.util.Collection;
 @EnableConfigurationProperties
 public class EasybatisGenerator implements ApplicationContextAware, ApplicationListener<ContextRefreshedEvent> {
     private static final Logger logger = LoggerFactory.getLogger(EasybatisGenerator.class);
-    private static boolean easybatisInit = true;
+    private static volatile boolean easybatisInit = true;
 
     private ApplicationContext applicationContext;
     private Configuration configuration;
@@ -70,7 +70,6 @@ public class EasybatisGenerator implements ApplicationContextAware, ApplicationL
         configuration.setUseActualParamName(true);
         configuration.addInterceptor(new EasybatisPlugin());
         configuration.getTypeHandlerRegistry().setDefaultEnumTypeHandler(EnumTypeHandler.class);
-        easybatisInit = true;
         logger.info("easybatis 初始化完毕");
     }
 }

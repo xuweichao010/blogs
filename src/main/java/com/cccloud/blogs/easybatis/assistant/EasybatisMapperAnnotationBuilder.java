@@ -468,9 +468,9 @@ public class EasybatisMapperAnnotationBuilder extends MapperAnnotationBuilder {
             } else {
                 throw new RuntimeException("");
             }
-            if(EasybatisEnvironment.isSqlLogger()){
+            //if(EasybatisEnvironment.isSqlLogger()){
                 logger.info("接口：{} ---> | 方法: {} | SQL: --- > {}", type.getName(), method.getName(), sql);
-            }
+           // }
             methods.put(type.getName() + "." + method.getName(), md);
             EasybatisPlugin.addMethodMate(mappedStatementId, new MethodMate(entityMate, method, key != null, isObject));
             return buildSqlSourceFromStrings(sql, parameterType, languageDriver);

@@ -111,7 +111,9 @@ public class EntityMate {
 
     public List<Attribute> insertAttribute() {
         ArrayList<Attribute> list = new ArrayList<>();
-        list.add(id);
+        if(IdType.AUTO != type){
+            list.add(id);
+        }
         if (attributeList != null && !attributeList.isEmpty()) list.addAll(attributeList);
         if (auditorAttributeList != null && !auditorAttributeList.isEmpty()) list.addAll(auditorAttributeList);
         if (logic != null) list.add(logic);

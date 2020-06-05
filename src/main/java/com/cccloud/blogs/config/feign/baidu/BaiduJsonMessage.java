@@ -1,5 +1,7 @@
 package com.cccloud.blogs.config.feign.baidu;
 
+import com.cccloud.blogs.commons.exceptions.BusinessException;
+import com.cccloud.blogs.commons.exceptions.SystemException;
 import lombok.Data;
 
 /**
@@ -9,7 +11,21 @@ import lombok.Data;
  */
 @Data
 public class BaiduJsonMessage<T> {
+    private static final int SUCCESS = 0;
     Integer status;
     T content;
     String address;
+
+    /**
+     * 解析数据
+     *
+     * @return
+     */
+    public T dispose() {
+        if (this.status == SUCCESS) {
+            return this.getContent();
+        } else {
+            throw new SystemException("百度服务请求错误:" + this.status);
+        }
+    }
 }

@@ -1,12 +1,23 @@
 package com.cccloud.blogs.controller.user.account;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+@Data
+@ApiModel(description = "用户信息")
 public class AccountDto {
-    private Integer id;
-    private String account;
-    private String email;
-    private String phone;
-    private String name;
-    private Integer gender;
-    private Integer age;
-    private String address;
+
+    @ApiModelProperty("用户ID")
+    private  Integer  id;
+
+    @ApiModelProperty("用户名")
+    private  String  name;
+
+    @ApiModelProperty("邮箱")
+    private  String  email;
+
+    @ApiModelProperty("性别 1-男性;2-女性")
+    private  Integer  gender;
+
 }

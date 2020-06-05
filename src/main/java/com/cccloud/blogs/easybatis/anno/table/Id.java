@@ -22,5 +22,5 @@ public @interface Id {
     @AliasFor("colum")
     String value() default "";
 
-    IdType type() default IdType.GLOBAL;
+    IdType type() default IdType.AUTO;
 }
