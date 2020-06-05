@@ -40,7 +40,7 @@ public class JsonMessage<T> {
 
     @ApiModelProperty("操作提示")
     private String msg;
-    @ApiModelProperty("操作状态: 200-成功 | 400-业务失败 | 401-未认证 | 403-访问受限 | 500-服务器内部错误")
+    @ApiModelProperty("操作状态: 200-成功; 400-业务失败; 401-未认证;403-访问受限;500-服务器内部错误")
     private int code;
     @ApiModelProperty("返回数据")
     private T data;

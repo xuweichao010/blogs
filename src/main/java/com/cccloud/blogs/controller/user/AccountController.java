@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
-@Api(tags = "user_account: 系统账号管理")
+@RequestMapping("/account")
+@Api(tags = "user_账号管理")
 public class AccountController {
 
     @Autowired

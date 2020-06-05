@@ -1,9 +1,6 @@
 package com.cccloud.blogs.controller.system;
 
 import com.cccloud.blogs.commons.JsonMessage;
-import com.cccloud.blogs.config.feign.baidu.BaiduJsonMessage;
-import com.cccloud.blogs.config.feign.baidu.dto.IpLocationDto;
-import com.cccloud.blogs.open.baidu.BaiduMapRpc;
 import com.cccloud.blogs.service.system.AccessService;
 import com.cccloud.blogs.utils.HttpUtils;
 import io.swagger.annotations.Api;
@@ -16,14 +13,11 @@ import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.concurrent.ThreadPoolExecutor;
 
 @RestController
 @RequestMapping("/open/access")
-@Api(tags = "sys_access: 统计系统访问")
+@Api(tags = "sys_访问统计")
 public class AccessController {
     @Autowired
     private ThreadPoolExecutor threadPoolExecutor;
