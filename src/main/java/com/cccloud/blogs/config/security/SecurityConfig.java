@@ -1,17 +1,15 @@
 package com.cccloud.blogs.config.security;
 
 import com.cccloud.blogs.commons.JsonMessage;
+import com.cccloud.blogs.utils.MD5;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.UUID;
 
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -34,14 +32,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new PasswordEncoder() {
+            BCryptPasswordEncoder passwordEncoder =  new BCryptPasswordEncoder();
+
             @Override
             public String encode(CharSequence rawPassword) {
-                return rawPassword.toString();
+                return passwordEncoder.encode(MD5.md5(rawPassword.toString()));
             }
 
             @Override
             public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                return rawPassword.equals(encodedPassword);
+                return passwordEncoder.matches(MD5.md5(rawPassword.toString()),encodedPassword);
             }
         };
     }

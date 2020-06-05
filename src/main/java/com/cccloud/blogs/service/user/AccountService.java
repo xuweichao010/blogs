@@ -3,13 +3,10 @@ package com.cccloud.blogs.service.user;
 import com.cccloud.blogs.commons.exceptions.BusinessException;
 import com.cccloud.blogs.entity.user.Account;
 import com.cccloud.blogs.mapper.AccountMapper;
-import com.cccloud.blogs.utils.MD5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-
-import java.util.List;
 
 /**
  * 作者：徐卫超
@@ -25,13 +22,13 @@ public class AccountService {
     PasswordEncoder passwordEncoder;
 
     public void add(Account account) {
-        List<Account> accountList = accountMapper.listby(null, account.getAccount(), null);
-        if (!accountList.isEmpty()) {
+        int accountCount = accountMapper.countBy(null, account.getAccount(), null);
+        if (accountCount > 0) {
             throw new BusinessException("账号已存在");
         }
         if (StringUtils.hasText(account.getEmail())) {
-            List<Account> emailList = accountMapper.listby(null, null, account.getEmail());
-            if (!emailList.isEmpty()) {
+            int emailCount = accountMapper.countBy(null, null, account.getEmail());
+            if (emailCount > 0) {
                 throw new BusinessException("邮箱已存在");
             }
         }
@@ -45,7 +42,18 @@ public class AccountService {
         if (StringUtils.hasText(publicKye)) {
             //TODO 传输解密
         }
-        String md5Password = MD5.md5(account.getPassword());
-        account.setPassword(passwordEncoder.encode(md5Password));
+        account.setPassword(passwordEncoder.encode(account.getPassword()));
+    }
+
+    public Account getBy(String name, String account, String email) {
+        Account bean = findBy(name, account, email);
+        if (bean == null) {
+            throw new BusinessException("账号不存在");
+        }
+        return bean;
+    }
+
+    public Account findBy(String name, String account, String email) {
+        return accountMapper.findBy(name, account, email);
     }
 }
