@@ -17,7 +17,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 @RestController
 @RequestMapping("/open/access")
-@Api(tags = "sys_访问统计")
+@Api(tags = "SYS_访问统计")
 public class AccessController {
     @Autowired
     private ThreadPoolExecutor threadPoolExecutor;

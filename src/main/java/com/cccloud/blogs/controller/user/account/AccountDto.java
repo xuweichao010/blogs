@@ -1,9 +1,11 @@
 package com.cccloud.blogs.controller.user.account;
 
+import com.cccloud.blogs.entity.user.Account;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.beans.BeanUtils;
 
 import javax.validation.constraints.NotNull;
 
@@ -30,4 +32,9 @@ public class AccountDto {
     private Integer gender;
 
 
+    public static AccountDto convert(Account src) {
+        AccountDto tar = new AccountDto();
+        BeanUtils.copyProperties(src, tar);
+        return tar;
+    }
 }

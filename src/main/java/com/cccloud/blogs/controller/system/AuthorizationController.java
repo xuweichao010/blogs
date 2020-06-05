@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/authorization")
-@Api(tags = "sys_用户登录")
+@Api(tags = "SYS_用户登录")
 public class AuthorizationController {
     @PostMapping("/login")
     @ApiOperation("用户登录")

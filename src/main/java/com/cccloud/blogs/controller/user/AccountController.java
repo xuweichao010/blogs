@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/account")
-@Api(tags = "user_账号管理")
+@Api(tags = "USER_账号管理")
 public class AccountController {
 
     @Autowired
@@ -46,7 +46,7 @@ public class AccountController {
     @GetMapping("/{id}")
     @ApiOperation("ID查询账号")
     public JsonMessage<AccountDto> get(@ApiParam("用户ID") @PathVariable("id") Long id) {
-        return JsonMessage.succeed();
+        return JsonMessage.succeed(AccountDto.convert(accountService.getBy(id)));
     }
 
     @GetMapping("")

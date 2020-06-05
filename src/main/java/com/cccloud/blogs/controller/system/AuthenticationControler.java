@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/authentication")
-@Api(tags = "sys_用户信息")
+@Api(tags = "SYS_用户信息")
 public class AuthenticationControler {
 
     @GetMapping("/")
