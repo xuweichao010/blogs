@@ -35,14 +35,17 @@ public class AccountController {
 
     @PutMapping("/{id}")
     @ApiOperation("修改账号")
-    public JsonMessage<Void> update(@ApiParam("用户ID") @PathVariable("id") Integer id,
+    public JsonMessage<Void> update(@ApiParam("用户ID") @PathVariable("id") Long id,
                                     @ApiParam("修改信息") @RequestBody AccountDto dto) {
+        dto.setId(id);
+        Account account = Account.convert(dto);
+        accountService.update(account);
         return JsonMessage.succeed();
     }
 
     @GetMapping("/{id}")
     @ApiOperation("ID查询账号")
-    public JsonMessage<AccountDto> get(@ApiParam("用户ID") @PathVariable("id") Integer id) {
+    public JsonMessage<AccountDto> get(@ApiParam("用户ID") @PathVariable("id") Long id) {
         return JsonMessage.succeed();
     }
 

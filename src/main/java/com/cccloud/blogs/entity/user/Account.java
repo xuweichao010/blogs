@@ -2,6 +2,7 @@ package com.cccloud.blogs.entity.user;
 
 
 import com.cccloud.blogs.controller.user.account.AccountAddDto;
+import com.cccloud.blogs.controller.user.account.AccountDto;
 import com.cccloud.blogs.easybatis.anno.table.Id;
 import com.cccloud.blogs.easybatis.anno.table.Table;
 import com.cccloud.blogs.easybatis.enums.IdType;
@@ -21,7 +22,7 @@ public class Account extends BaseEntity implements Serializable {
      * 用户ID
      **/
     @Id(type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     /**
      * 账号
@@ -48,10 +49,37 @@ public class Account extends BaseEntity implements Serializable {
      **/
     private Integer gender;
 
+    /**
+     * AccountAddDto 转换成  Account
+     *
+     * @param src 数据源
+     * @return
+     */
+    public static Account convert(AccountAddDto src) {
+        Account tar = new Account();
+        BeanUtils.copyProperties(src, tar);
+        return tar;
+    }
 
-    public static Account convert(AccountAddDto dto) {
-        Account account = new Account();
-        BeanUtils.copyProperties(dto, account);
-        return account;
+    /**
+     * AccountDto 转换成  Account
+     *
+     * @param src 数据源
+     * @return
+     */
+    public static Account convert(AccountDto src) {
+        Account tar = new Account();
+        BeanUtils.copyProperties(src, tar);
+        return tar;
+    }
+
+    /**
+     * AccountDto 复制到  Account
+     *
+     * @param src 数据源
+     * @return
+     */
+    public void copy(Account src) {
+        BeanUtils.copyProperties(src, this, "id", "account", "password");
     }
 }

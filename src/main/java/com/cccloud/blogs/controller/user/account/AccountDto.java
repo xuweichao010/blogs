@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 public class AccountDto {
 
     @ApiModelProperty("用户ID")
-    private Integer id;
+    private Long id;
 
     @ApiModelProperty("账号")
     @NotNull(message = "账号不能为空")
