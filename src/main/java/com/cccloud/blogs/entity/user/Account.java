@@ -1,11 +1,13 @@
 package com.cccloud.blogs.entity.user;
 
 
+import com.cccloud.blogs.controller.user.account.AccountAddDto;
 import com.cccloud.blogs.easybatis.anno.table.Id;
 import com.cccloud.blogs.easybatis.anno.table.Table;
 import com.cccloud.blogs.easybatis.enums.IdType;
 import com.cccloud.blogs.entity.BaseEntity;
 import lombok.Data;
+import org.springframework.beans.BeanUtils;
 
 import java.io.Serializable;
 
@@ -19,22 +21,37 @@ public class Account extends BaseEntity implements Serializable {
      * 用户ID
      **/
     @Id(type = IdType.AUTO)
-    private  Integer  id;
+    private Integer id;
 
-    /**账号**/
-    private  String  account;
+    /**
+     * 账号
+     **/
+    private String account;
 
-    /**密码**/
-    private  String  password;
+    /**
+     * 密码
+     **/
+    private String password;
 
-    /**用户名**/
-    private  String  name;
+    /**
+     * 用户名
+     **/
+    private String name;
 
-    /**邮箱**/
-    private  String  email;
+    /**
+     * 邮箱
+     **/
+    private String email;
 
-    /**性别 1-男性;2-女性**/
-    private  Integer  gender;
+    /**
+     * 性别 1-男性;2-女性
+     **/
+    private Integer gender;
 
 
+    public static Account convert(AccountAddDto dto) {
+        Account account = new Account();
+        BeanUtils.copyProperties(dto, account);
+        return account;
+    }
 }

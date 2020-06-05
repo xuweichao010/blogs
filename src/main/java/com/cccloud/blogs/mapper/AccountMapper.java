@@ -8,8 +8,8 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 @Mapper
-public interface AccountMapper extends BaseMapper<Account,Integer> {
+public interface AccountMapper extends BaseMapper<Account, Integer> {
 
-    @SelectSql
-    List<Account> listby(String name);
+    @SelectSql(dynamic = true)
+    List<Account> listby(String name, String account, String email);
 }

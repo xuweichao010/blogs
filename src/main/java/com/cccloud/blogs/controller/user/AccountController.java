@@ -1,12 +1,16 @@
 package com.cccloud.blogs.controller.user;
 
 import com.cccloud.blogs.commons.JsonMessage;
+import com.cccloud.blogs.controller.user.account.AccountAddDto;
 import com.cccloud.blogs.controller.user.account.AccountDto;
 import com.cccloud.blogs.controller.user.account.AccountFilter;
+import com.cccloud.blogs.entity.user.Account;
+import com.cccloud.blogs.service.user.AccountService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,9 +20,16 @@ import java.util.List;
 @Api(tags = "user_account: 系统账号管理")
 public class AccountController {
 
+    @Autowired
+    private AccountService accountService;
+
     @PostMapping("")
     @ApiOperation("添加账号")
-    public JsonMessage<Void> add(@RequestBody AccountDto dto) {
+    public JsonMessage<Void> add(@Validated @RequestBody AccountAddDto dto) {
+        dto.setId(null);
+        Account account = Account.convert(dto);
+        accountService.encoderPassword(account, null);
+        accountService.add(account);
         return JsonMessage.succeed();
     }
 
