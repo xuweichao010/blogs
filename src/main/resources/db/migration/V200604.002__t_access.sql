@@ -2,7 +2,7 @@
  匿名访问记录记录
  */
 CREATE TABLE IF NOT EXISTS t_access (
-  `id`          BIGINT(32)    AUTO_INCREMENT COMMENT '记录ID',
+  `id`          BIGINT    AUTO_INCREMENT COMMENT '记录ID',
   `ip`          VARCHAR(32)  NOT NULL COMMENT 'IP地址',
   `province`    VARCHAR(128) NOT NULL COMMENT '省份',
   `city`        VARCHAR(64)  NOT NULL COMMENT '城市',

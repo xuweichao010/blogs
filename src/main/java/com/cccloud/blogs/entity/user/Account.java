@@ -45,6 +45,11 @@ public class Account extends BaseEntity implements Serializable {
     private String email;
 
     /**
+     *  用户状态 1-正常;2-禁用
+     */
+    private Integer state;
+
+    /**
      * 性别 1-男性;2-女性
      **/
     private Integer gender;
@@ -80,6 +85,6 @@ public class Account extends BaseEntity implements Serializable {
      * @return
      */
     public void copy(Account src) {
-        BeanUtils.copyProperties(src, this, "id", "account", "password");
+        BeanUtils.copyProperties(src, this, "id", "account", "password", "state");
     }
 }

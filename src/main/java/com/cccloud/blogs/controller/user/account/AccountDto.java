@@ -28,6 +28,10 @@ public class AccountDto {
     @Length(max = 128, message = "邮箱长度异常")
     private String email;
 
+    @ApiModelProperty("用户状态 1-正常;2-禁用")
+    @NotNull
+    private Integer state;
+
     @ApiModelProperty("性别 1-男性;2-女性")
     private Integer gender;
 

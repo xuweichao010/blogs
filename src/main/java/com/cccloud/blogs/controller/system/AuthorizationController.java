@@ -26,6 +26,7 @@ public class AuthorizationController {
     }
 
     @GetMapping("/rsa/publicKey")
+    @ApiOperation("数据加密")
     public JsonMessage<String> rsaPublicKey(@ApiIgnore HttpSession session) {
         session.setAttribute("publicKey", "publicKey");
         return JsonMessage.succeed("publicKey");
