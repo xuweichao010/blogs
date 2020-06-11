@@ -51,6 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable().cors().disable().authorizeRequests()
                 .antMatchers(patterns).permitAll()
                 .anyRequest().authenticated().and().csrf().disable();
+        //http.addFilterAt(new CustomJsonAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         http.formLogin().loginPage("/swagger-ui.html")
                 .loginProcessingUrl("/authorization/login")
                 .successHandler((request, response, authentication) -> {
