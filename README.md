@@ -14,11 +14,11 @@ OpenFeign: https://github.com/OpenFeign/feign
 
 提交规范
 ```text
-【操作】 功能 | BUG | 变更 | SYS | 更新  -[完成]
+【操作】 功能 | BUG | 变更 | SYS | 更新  -[ 开发  | 对接 | 完成 ]
 【概述】 
-【编号】
-【依赖模块】
-【备注】
+【编号】 无
+【依赖模块】 无
+【备注】 无
 ```
 - 操作：
 ```text

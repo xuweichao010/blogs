@@ -28,6 +28,11 @@ public class MenuDto {
      */
     private Long parentId;
 
+    /**
+     * 路由
+     */
+    private String path;
+
     public static MenuDto convert(Menu src) {
         MenuDto tar = new MenuDto();
         BeanUtils.copyProperties(src, tar);

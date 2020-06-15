@@ -4,6 +4,7 @@ import com.cccloud.blogs.entity.user.Menu;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
  * 描述：
  */
 @Data
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper = true)
 public class MenuTreeDto extends MenuDto {
     @ApiModelProperty("子菜单信息")
     private List<MenuTreeDto> child;
@@ -23,10 +24,7 @@ public class MenuTreeDto extends MenuDto {
 
     public static MenuTreeDto convert(Menu src) {
         MenuTreeDto tar = new MenuTreeDto();
-        tar.setId(src.getId());
-        tar.setName(src.getName());
-        tar.setCode(src.getCode());
-        tar.setParentId(src.getParentId());
+        BeanUtils.copyProperties(src, tar);
         return tar;
     }
 }

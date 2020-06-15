@@ -38,4 +38,9 @@ public class Menu extends BaseEntity implements Serializable {
      * 父节点ID
      */
     private Long parentId;
+
+    /**
+     * 路由
+     */
+    private String path;
 }
