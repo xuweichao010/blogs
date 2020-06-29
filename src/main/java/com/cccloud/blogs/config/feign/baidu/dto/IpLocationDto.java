@@ -1,5 +1,7 @@
 package com.cccloud.blogs.config.feign.baidu.dto;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -11,6 +13,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel(description = "IP位置解析信息")
+@JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class IpLocationDto {
     @ApiModelProperty("简要地址信息")
     private String address;
@@ -21,6 +24,7 @@ public class IpLocationDto {
 
 
     @Data
+    @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
     public class AddressDetailDto {
         @ApiModelProperty("城市")
         private String city;
@@ -31,6 +35,7 @@ public class IpLocationDto {
     }
 
     @Data
+    @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
     public class PointDto {
         @ApiModelProperty("当前城市中心点经度")
         String x;
@@ -40,24 +45,24 @@ public class IpLocationDto {
 }
 
 /**
- * 正常相应
- * {
- * address: "CN|北京|北京|None|CHINANET|1|None",    #详细地址信息
- * content:    #结构信息
- * {
- * address: "北京市",    #简要地址信息
- * address_detail:    #结构化地址信息
- * {
- * city: "北京市",    #城市
- * city_code: 131,    #百度城市代码
- * province: "北京市",    #省份
- * },
- * point:    #当前城市中心点
- * {
- * x: "116.39564504",    #当前城市中心点经度
- * y: "39.92998578"    #当前城市中心点纬度
- * }
- * },
- * status: 0    #结果状态返回码
- * }
+ ------------------------  正常相应 ---------------------------------
+ {
+    address: "CN|北京|北京|None|CHINANET|1|None",    #详细地址信息
+    #结构信息
+    content:{
+        address: "北京市",    #简要地址信息
+        #结构化地址信息
+        address_detail:{
+            city: "北京市",    #城市
+            city_code: 131,    #百度城市代码
+            province: "北京市",    #省份
+        },
+        #当前城市中心点
+        point:{
+            x: "116.39564504",    #当前城市中心点经度
+            y: "39.92998578"    #当前城市中心点纬度
+        }
+    },
+    status: 0    #结果状态返回码
+ }
  */

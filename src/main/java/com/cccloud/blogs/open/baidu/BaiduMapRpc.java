@@ -8,7 +8,7 @@ import feign.RequestLine;
 /**
  * 作者：徐卫超
  * 时间：2020/6/3 17:27
- * 描述：百度地址API接口
+ * 描述：百度地图API接口
  */
 public interface BaiduMapRpc {
 

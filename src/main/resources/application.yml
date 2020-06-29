@@ -9,7 +9,6 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss  # 配置日期格式
     time-zone: GMT+8 #配置日期时区
-    property-naming-strategy: CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES
   redis:                # REDIS (RedisProperties)
     database: 8         #Redis数据库索引（默认为0）
     host: localhost     # Redis服务器地址
