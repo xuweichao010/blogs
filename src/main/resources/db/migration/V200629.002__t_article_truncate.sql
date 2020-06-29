@@ -1,6 +1,7 @@
 /**
   文章基本信息管理
  */
+DROP TABLE  IF EXISTS `t_article`;
 CREATE TABLE IF NOT EXISTS t_article
 (
     `id`          BIGINT AUTO_INCREMENT COMMENT '文章ID',
