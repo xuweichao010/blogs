@@ -15,7 +15,7 @@ OpenFeign: https://github.com/OpenFeign/feign
 提交规范
 ```text
 【操作】 功能 | BUG | 变更 | SYS | 更新  -[ 开发  | 对接  ]
-【概述】 
+【功能】 
 【编号】 无
 【依赖模块】 无
 【备注】 无

@@ -13,15 +13,9 @@ import org.springframework.beans.BeanUtils;
 @Data
 public class ArticleGroupDto {
 
-    /**
-     *
-     **/
     @ApiModelProperty("文章组ID")
     private Integer id;
 
-    /**
-     *
-     **/
     @ApiModelProperty("组名称")
     private String name;
 

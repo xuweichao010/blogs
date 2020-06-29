@@ -9,8 +9,9 @@ CREATE TABLE IF NOT EXISTS t_article
     `account_id`  BIGINT NOT NULL COMMENT '创建人ID',
     `title`       VARCHAR(64)  NOT NULL COMMENT '文章标题',
     `describe`   VARCHAR(512) NOT NULL COMMENT '文章描述',
-    `create_time` DATETIME COMMENT '创建时间',
     `update_time` DATETIME COMMENT '更新时间',
+    `update_id`   VARCHAR(32) COMMENT '更新ID',
+    `update_name` VARCHAR(32) DEFAULT NULL COMMENT '更新名字',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB COMMENT = '文章基本信息';
 

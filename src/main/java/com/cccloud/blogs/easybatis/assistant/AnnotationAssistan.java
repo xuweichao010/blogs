@@ -406,6 +406,9 @@ public class AnnotationAssistan {
                     }
                 }
             }
+            if(result.length() >0 ){
+                return result.insert(0,"`").append("`").toString();
+            }
             return result.toString();
         }
         return camelCaseName;
