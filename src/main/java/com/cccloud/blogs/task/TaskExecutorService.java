@@ -4,6 +4,7 @@ import com.cccloud.blogs.task.model.TaskContext;
 
 import java.util.List;
 import java.util.concurrent.*;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 作者：徐卫超
@@ -12,6 +13,7 @@ import java.util.concurrent.*;
  */
 public class TaskExecutorService extends ThreadPoolExecutor {
     private final List<ExecutorPostProcessor> executorPostProcessorList = new CopyOnWriteArrayList<>();
+    private final ReentrantLock lock = new ReentrantLock(false);
 
     {
         executorPostProcessorList.add(new ExecutorPostProcessor() {
@@ -86,6 +88,14 @@ public class TaskExecutorService extends ThreadPoolExecutor {
             }
 
         }
+        lock.lock();
+        try {
+            super.execute(runnable);
+        } finally {
+            if (lock.isHeldByCurrentThread()) lock.unlock();
+        }
+    }
+    private void doExecute(Runnable runnable){
         super.execute(runnable);
     }
 
@@ -97,5 +107,47 @@ public class TaskExecutorService extends ThreadPoolExecutor {
         return ftask;
     }
 
+    public static class CallerOldRunsPolicy implements RejectedExecutionHandler {
+        /**
+         * Creates a {@code CallerRunsPolicy}.
+         */
+        public CallerOldRunsPolicy() {
+        }
+
+        /**
+         * Executes task r in the caller's thread, unless the executor
+         * has been shut down, in which case the task is discarded.
+         *
+         * @param r                  the runnable task requested to be executed
+         * @param threadPoolExecutor the executor attempting to execute this task
+         */
+        public void rejectedExecution(Runnable r, ThreadPoolExecutor threadPoolExecutor) {
+            if (threadPoolExecutor instanceof TaskExecutorService) {
+                TaskExecutorService ex = (TaskExecutorService) threadPoolExecutor;
+                Runnable task;
+                task = threadPoolExecutor.getQueue().poll();
+                ex.doExecute(r);
+                if (ex.lock.isHeldByCurrentThread()) ex.lock.unlock();
+                if (task == null) return;
+                ex.executorPostProcessorList.forEach(executorPostProcessor -> {
+                    executorPostProcessor.beforeExecuteProcessor(Thread.currentThread(), r);
+                });
+                Throwable throwable = null;
+                try {
+                    task.run();
+                } catch (Throwable t) {
+                    throwable = t;
+                    t.printStackTrace();
+                } finally {
+                    Throwable finalThrowable = throwable;
+                    ex.executorPostProcessorList.forEach(executorPostProcessor -> {
+                        executorPostProcessor.afterExecuteProcessor(r, finalThrowable);
+                    });
+                }
+            } else {
+                r.run();
+            }
+        }
+    }
 
 }

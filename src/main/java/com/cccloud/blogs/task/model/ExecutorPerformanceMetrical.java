@@ -41,12 +41,12 @@ public class ExecutorPerformanceMetrical {
     }
 
     public long waitingAvg() {
-        if(count.get() == 0) return 0;
+        if (count.get() == 0) return 0;
         return waiting.getSum() / count.get();
     }
 
     public long runningAvg() {
-        if(count.get() == 0) return 0;
+        if (count.get() == 0) return 0;
         return running.getSum() / count.get();
     }
 
@@ -57,6 +57,6 @@ public class ExecutorPerformanceMetrical {
      */
     public double calculatePerformance() {
         if (count.get() == 0) return 0D;
-        return (System.nanoTime() - initTime) / 1000D / 1000D / count.get();
+        return count.get() * 1000_000_000L * 1D / (System.nanoTime() - initTime);
     }
 }
