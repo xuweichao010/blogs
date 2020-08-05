@@ -24,6 +24,8 @@ public class MonitorExecutorPostProcessor extends AbstractExecutorPostProcessor 
 
     private volatile ExecutorPerformanceMetrical metrical;
 
+    private boolean isAutoOut = false;
+
     private AtomicLong waitingCount = new AtomicLong();
     private AtomicLong runningCount = new AtomicLong();
 
@@ -33,7 +35,8 @@ public class MonitorExecutorPostProcessor extends AbstractExecutorPostProcessor 
 
     public MonitorExecutorPostProcessor(TimeUnit timeUnit, long time, boolean isAutoOut) {
         if (timeUnit == null || time < 0) return;
-        metrical = new ExecutorPerformanceMetrical();
+        this.metrical = new ExecutorPerformanceMetrical();
+        this.isAutoOut = isAutoOut;
         if (!isAutoOut) return;
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -44,6 +47,18 @@ public class MonitorExecutorPostProcessor extends AbstractExecutorPostProcessor 
                 System.out.println(printMetric("任务", outMetrical));
             }
         }, timeUnit.toMillis(time), timeUnit.toMillis(time));
+    }
+
+    public MonitorExecutorPostProcessor() {
+        this(null, -1, false);
+    }
+
+
+    public ExecutorPerformanceMetrical getMetrical() {
+        if (isAutoOut) throw new RuntimeException("无法获取自动输出的日志信息");
+        ExecutorPerformanceMetrical outMetrical = this.metrical;
+        metrical = new ExecutorPerformanceMetrical();
+        return outMetrical;
     }
 
     @Override

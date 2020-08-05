@@ -4,7 +4,6 @@ import com.cccloud.blogs.task.model.TaskContext;
 
 import java.util.List;
 import java.util.concurrent.*;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * 作者：徐卫超
@@ -13,7 +12,6 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class TaskExecutorService extends ThreadPoolExecutor {
     private final List<ExecutorPostProcessor> executorPostProcessorList = new CopyOnWriteArrayList<>();
-    private final ReentrantLock lock = new ReentrantLock(false);
 
     {
         executorPostProcessorList.add(new ExecutorPostProcessor() {
@@ -86,16 +84,11 @@ public class TaskExecutorService extends ThreadPoolExecutor {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
-        lock.lock();
-        try {
-            super.execute(runnable);
-        } finally {
-            if (lock.isHeldByCurrentThread()) lock.unlock();
-        }
+        super.execute(runnable);
     }
-    private void doExecute(Runnable runnable){
+
+    private void doExecute(Runnable runnable) {
         super.execute(runnable);
     }
 
@@ -107,45 +100,41 @@ public class TaskExecutorService extends ThreadPoolExecutor {
         return ftask;
     }
 
-    public static class CallerOldRunsPolicy implements RejectedExecutionHandler {
-        /**
-         * Creates a {@code CallerRunsPolicy}.
-         */
-        public CallerOldRunsPolicy() {
-        }
+    public static abstract class TaskRejectedExecutionHandler implements RejectedExecutionHandler {
 
-        /**
-         * Executes task r in the caller's thread, unless the executor
-         * has been shut down, in which case the task is discarded.
-         *
-         * @param r                  the runnable task requested to be executed
-         * @param threadPoolExecutor the executor attempting to execute this task
-         */
-        public void rejectedExecution(Runnable r, ThreadPoolExecutor threadPoolExecutor) {
-            if (threadPoolExecutor instanceof TaskExecutorService) {
-                TaskExecutorService ex = (TaskExecutorService) threadPoolExecutor;
-                Runnable task;
-                task = threadPoolExecutor.getQueue().poll();
-                ex.doExecute(r);
-                if (ex.lock.isHeldByCurrentThread()) ex.lock.unlock();
-                if (task == null) return;
+        @Override
+        public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
+            if (executor instanceof TaskExecutorService) {
+                TaskExecutorService ex = (TaskExecutorService) executor;
                 ex.executorPostProcessorList.forEach(executorPostProcessor -> {
                     executorPostProcessor.beforeExecuteProcessor(Thread.currentThread(), r);
                 });
                 Throwable throwable = null;
                 try {
-                    task.run();
+                    doRejectedExecution(r, ex);
                 } catch (Throwable t) {
                     throwable = t;
-                    t.printStackTrace();
-                } finally {
-                    Throwable finalThrowable = throwable;
-                    ex.executorPostProcessorList.forEach(executorPostProcessor -> {
-                        executorPostProcessor.afterExecuteProcessor(r, finalThrowable);
-                    });
                 }
+                final Throwable finalThrowable = throwable;
+                ex.executorPostProcessorList.forEach(executorPostProcessor -> {
+                    executorPostProcessor.afterExecuteProcessor(r, finalThrowable);
+                });
             } else {
-                r.run();
+                rejectedExecution(r, executor);
+            }
+        }
+
+        public abstract void doRejectedExecution(Runnable r, TaskExecutorService executor);
+    }
+
+    public static class CallerOldRunsPolicy extends TaskRejectedExecutionHandler {
+
+        @Override
+        public void doRejectedExecution(Runnable r, TaskExecutorService executor) {
+            if (!executor.isShutdown()) {
+                Runnable runnable = executor.getQueue().poll();
+                if (runnable != null) runnable.run();
+                executor.doExecute(r);
             }
         }
     }
