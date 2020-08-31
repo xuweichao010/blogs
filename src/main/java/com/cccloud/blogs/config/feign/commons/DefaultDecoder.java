@@ -6,12 +6,10 @@ import feign.Response;
 import feign.codec.DecodeException;
 import feign.codec.Decoder;
 import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpMessageConverterExtractor;
 
 import java.io.IOException;
@@ -27,11 +25,11 @@ import java.lang.reflect.WildcardType;
  * 描述：Feign 远程调用解析类
  */
 
-public class FeignDecoder implements Decoder {
+public class DefaultDecoder implements Decoder {
 
     private ObjectFactory<HttpMessageConverters> messageConverters;
 
-    public FeignDecoder(ObjectFactory<HttpMessageConverters> messageConverters) {
+    public DefaultDecoder(ObjectFactory<HttpMessageConverters> messageConverters) {
         this.messageConverters = messageConverters;
     }
 

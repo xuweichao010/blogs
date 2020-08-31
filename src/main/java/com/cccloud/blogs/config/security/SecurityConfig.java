@@ -27,6 +27,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/doc.html"
     };
 
+
+
     private boolean dev = true;
 
     @Bean

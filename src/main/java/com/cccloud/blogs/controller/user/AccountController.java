@@ -1,6 +1,8 @@
 package com.cccloud.blogs.controller.user;
 
 import com.cccloud.blogs.commons.JsonMessage;
+import com.cccloud.blogs.config.mvc.Execl;
+import com.cccloud.blogs.config.security.IUser;
 import com.cccloud.blogs.controller.user.account.AccountAddDto;
 import com.cccloud.blogs.controller.user.account.AccountDto;
 import com.cccloud.blogs.controller.user.account.AccountFilter;
@@ -12,6 +14,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -25,7 +28,7 @@ public class AccountController {
 
     @PostMapping("")
     @ApiOperation("添加账号")
-    public JsonMessage<Void> add(@Validated @RequestBody AccountAddDto dto) {
+    public JsonMessage<Void> add(@Validated @RequestBody AccountAddDto dto, IUser iUser) {
         dto.setId(null);
         Account account = Account.convert(dto);
         accountService.encoderPassword(account, null);
@@ -55,5 +58,10 @@ public class AccountController {
         return JsonMessage.succeed();
     }
 
+    @Execl
+    @PostMapping("import")
+    public List<Object> importAccount(@Execl List<AccountDto> list, MultipartFile file) {
+        return null;
+    }
 
 }

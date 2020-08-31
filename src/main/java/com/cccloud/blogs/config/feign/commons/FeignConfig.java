@@ -1,6 +1,5 @@
 package com.cccloud.blogs.config.feign.commons;
 
-import com.cccloud.blogs.open.baidu.BaiduMapRpc;
 import feign.Feign;
 import feign.Logger;
 import feign.RequestInterceptor;
@@ -8,15 +7,13 @@ import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 /**
  * 作者：徐卫超
  * 时间：2020/6/3 18:38
  * 描述：
  */
-@Configuration
+// @Configuration
 public class FeignConfig {
 
     //请求Header Content-Type
@@ -51,13 +48,13 @@ public class FeignConfig {
     }
 
     @Bean
-    public FeignDecoder feignDecoder() {
-        return new FeignDecoder(messageConverters);
+    public DefaultDecoder feignDecoder() {
+        return new DefaultDecoder(messageConverters);
     }
 
     @Bean
-    public FeignEncoder feignEncoder() {
-        return new FeignEncoder(messageConverters);
+    public DefaultEncoder feignEncoder() {
+        return new DefaultEncoder(messageConverters);
     }
 
 }

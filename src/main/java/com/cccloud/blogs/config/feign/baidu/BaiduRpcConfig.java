@@ -1,14 +1,7 @@
 package com.cccloud.blogs.config.feign.baidu;
 
-import com.alibaba.fastjson.JSONObject;
 import com.cccloud.blogs.commons.exceptions.SystemException;
 import com.cccloud.blogs.config.feign.commons.FeignConfig;
-import com.cccloud.blogs.config.feign.commons.FeignDecoder;
-import com.cccloud.blogs.config.feign.commons.FeignEncoder;
-import com.cccloud.blogs.config.feign.commons.Slf4jLogger;
-import com.cccloud.blogs.open.baidu.BaiduMapRpc;
-import feign.Feign;
-import feign.Logger;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +9,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.net.URLEncoder;
-
-import javax.servlet.http.HttpServlet;
 import java.io.UnsupportedEncodingException;
-import java.util.*;
+import java.net.URLEncoder;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * 作者：徐卫超
@@ -33,10 +26,10 @@ public class BaiduRpcConfig {
     @Autowired
     private FeignConfig feignConfig;
 
-    @Bean
-    public BaiduMapRpc baiduMapRpc() {
-        return feignConfig.buildRpc(BaiduMapRpc.class, baiduMapProperties().getUrl(), baiduInterceptor());
-    }
+//    @Bean
+//    public BaiduMapRpc baiduMapRpc() {
+//        return feignConfig.buildRpc(BaiduMapRpc.class, baiduMapProperties().getUrl(), baiduInterceptor());
+//    }
 
     @Bean
     @ConfigurationProperties(prefix = "rpc.baidu.map")

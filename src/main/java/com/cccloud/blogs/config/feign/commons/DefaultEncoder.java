@@ -1,14 +1,9 @@
 package com.cccloud.blogs.config.feign.commons;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
-import java.util.Collection;
-
+import feign.RequestTemplate;
+import feign.codec.EncodeException;
+import feign.codec.Encoder;
 import org.springframework.beans.factory.ObjectFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpOutputMessage;
@@ -16,10 +11,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
 
-import feign.RequestTemplate;
-import feign.codec.EncodeException;
-import feign.codec.Encoder;
-import org.springframework.stereotype.Component;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
+import java.util.Collection;
 
 
 /**
@@ -28,11 +25,11 @@ import org.springframework.stereotype.Component;
  * 描述：Feign 远程调用封装类
  */
 
-public class FeignEncoder implements Encoder {
+public class DefaultEncoder implements Encoder {
 
     private ObjectFactory<HttpMessageConverters> messageConverters;
 
-    public FeignEncoder(ObjectFactory<HttpMessageConverters> messageConverters) {
+    public DefaultEncoder(ObjectFactory<HttpMessageConverters> messageConverters) {
         this.messageConverters = messageConverters;
     }
 

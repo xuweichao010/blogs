@@ -5,10 +5,12 @@ import com.cccloud.blogs.config.feign.baidu.BaiduJsonMessage;
 import com.cccloud.blogs.config.feign.baidu.dto.IpLocationDto;
 import com.cccloud.blogs.open.baidu.BaiduMapRpc;
 import org.junit.jupiter.api.Test;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
+@MapperScan
 class BlogsApplicationTests {
 
 	@Autowired
