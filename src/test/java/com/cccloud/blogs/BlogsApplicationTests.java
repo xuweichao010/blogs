@@ -1,9 +1,9 @@
 package com.cccloud.blogs;
 
 import com.alibaba.fastjson.JSONObject;
-import com.cccloud.blogs.config.feign.baidu.BaiduJsonMessage;
-import com.cccloud.blogs.config.feign.baidu.dto.IpLocationDto;
 import com.cccloud.blogs.open.baidu.BaiduMapRpc;
+import com.cccloud.blogs.open.baidu.commmons.BaiduJsonMessage;
+import com.cccloud.blogs.open.baidu.dto.IpLocationDto;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;

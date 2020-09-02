@@ -43,4 +43,6 @@ public class FeignFactoryBean<T> implements FactoryBean<T> {
     public Class<?> getObjectType() {
         return feignClass;
     }
+
+
 }

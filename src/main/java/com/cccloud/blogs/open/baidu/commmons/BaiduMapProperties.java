@@ -1,4 +1,4 @@
-package com.cccloud.blogs.config.feign.baidu;
+package com.cccloud.blogs.open.baidu.commmons;
 
 import lombok.Data;
 

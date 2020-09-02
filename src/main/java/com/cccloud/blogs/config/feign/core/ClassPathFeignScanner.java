@@ -1,16 +1,21 @@
 package com.cccloud.blogs.config.feign.core;
 
 import com.cccloud.blogs.config.feign.Feign;
+import feign.Logger;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.AnnotatedBeanDefinition;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
+import org.springframework.beans.factory.config.RuntimeBeanReference;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
+import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
 import java.util.Set;
@@ -26,6 +31,16 @@ import java.util.Set;
 public class ClassPathFeignScanner extends ClassPathBeanDefinitionScanner {
 
     private Class<? extends FeignFactoryBean<?>> feignFactoryBean;
+
+    private String decoderBeanName;
+
+    private String encoderBeanName;
+
+    private Logger.Level level;
+
+    private String loggerBeanName;
+
+    private String interceptorBeanName;
 
     public ClassPathFeignScanner(BeanDefinitionRegistry registry) {
         super(registry);
@@ -45,8 +60,7 @@ public class ClassPathFeignScanner extends ClassPathBeanDefinitionScanner {
 
     @Override
     protected boolean isCandidateComponent(AnnotatedBeanDefinition beanDefinition) {
-        return beanDefinition.getMetadata().isInterface() && beanDefinition.getMetadata().isIndependent()
-                && beanDefinition.getMetadata().hasAnnotation(Feign.class.getName());
+        return beanDefinition.getMetadata().isInterface() && beanDefinition.getMetadata().isIndependent() && beanDefinition.getMetadata().hasAnnotation(Feign.class.getName());
     }
 
     @Override
@@ -63,16 +77,54 @@ public class ClassPathFeignScanner extends ClassPathBeanDefinitionScanner {
     private void processBeanDefinitions(Set<BeanDefinitionHolder> beanDefinitions) {
         GenericBeanDefinition definition;
         for (BeanDefinitionHolder holder : beanDefinitions) {
+            String url = getFeignUrl(holder);
+            String interceptorBeanName = getFeignInterceptorClass(holder);
             definition = (GenericBeanDefinition) holder.getBeanDefinition();
             String beanClassName = definition.getBeanClassName();
-            logger.debug("Creating MapperFactoryBean with name '" + holder.getBeanName() + "' and '" + beanClassName
-                    + "' mapperInterface");
+            definition.getConstructorArgumentValues().addGenericArgumentValue(beanClassName);
+            definition.setBeanClass(this.feignFactoryBean);
+            definition.getPropertyValues().add("url", url);
+            definition.getPropertyValues().add("interceptor", new RuntimeBeanReference(interceptorBeanName));
+            definition.getPropertyValues().add("level", this.level);
+            definition.getPropertyValues().add("encoder", new RuntimeBeanReference(this.encoderBeanName));
+            definition.getPropertyValues().add("decoder", new RuntimeBeanReference(this.decoderBeanName));
+            definition.getPropertyValues().add("level", this.level);
+            definition.getPropertyValues().add("logger", new RuntimeBeanReference(this.loggerBeanName));
 
+            definition.setLazyInit(false);
         }
     }
 
+    private String getFeignInterceptorClass(BeanDefinitionHolder beanDefinition) {
+        Feign annotation = null;
+        try {
+            annotation = AnnotationUtils.findAnnotation(Class.forName(beanDefinition.getBeanDefinition().getBeanClassName()), Feign.class);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(beanDefinition.getBeanDefinition().getBeanClassName(), e);
+        }
+        String interceptorBeanName = annotation.interceptor().getSimpleName();
+        if (!this.getRegistry().containsBeanDefinition(interceptorBeanName)) {
+            getRegistry().registerBeanDefinition(interceptorBeanName, BeanDefinitionBuilder.genericBeanDefinition(annotation.interceptor()).getBeanDefinition());
+        }
+        return interceptorBeanName;
+    }
+
+    private String getFeignUrl(BeanDefinitionHolder beanDefinition) {
+        Feign annotation = null;
+        try {
+            annotation = AnnotationUtils.findAnnotation(Class.forName(beanDefinition.getBeanDefinition().getBeanClassName()), Feign.class);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(beanDefinition.getBeanDefinition().getBeanClassName(), e);
+        }
+        String propertyUrl = getEnvironment().getProperty(annotation.url());
+        if (StringUtils.hasText(propertyUrl)) {
+            return propertyUrl;
+        }
+        return annotation.url();
+    }
+
     public void registerFilters() {
-        addIncludeFilter(new AnnotationTypeFilter(Feign.class));
+        this.addIncludeFilter(new AnnotationTypeFilter(Feign.class));
     }
 
 

@@ -1,8 +1,6 @@
 package com.cccloud.blogs.config.feign.core;
 
 import feign.Logger;
-import feign.codec.Decoder;
-import feign.codec.Encoder;
 import lombok.Setter;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -21,22 +19,26 @@ public class FeignScannerConfigurer implements BeanDefinitionRegistryPostProcess
 
     private Class<? extends FeignFactoryBean<?>> factoryBean;
 
-    private Decoder decoder;
+    private String decoderBeanName;
 
-    private Encoder encoder;
+    private String encoderBeanName;
 
     private Logger.Level level;
 
-    private Logger logger;
-
+    private String loggerBeanName;
 
 
     @Override
     public void postProcessBeanDefinitionRegistry(BeanDefinitionRegistry registry) throws BeansException {
         ClassPathFeignScanner scanner = new ClassPathFeignScanner(registry);
         scanner.setFeignFactoryBean(factoryBean);
+        scanner.setDecoderBeanName(this.decoderBeanName);
+        scanner.setEncoderBeanName(this.encoderBeanName);
+        scanner.setLevel(this.level);
+        scanner.setLoggerBeanName(loggerBeanName);
         scanner.registerFilters();
         scanner.scan(basePackage);
+
     }
 
     @Override

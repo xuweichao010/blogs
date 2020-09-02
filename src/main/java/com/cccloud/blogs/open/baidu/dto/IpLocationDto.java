@@ -1,4 +1,4 @@
-package com.cccloud.blogs.config.feign.baidu.dto;
+package com.cccloud.blogs.open.baidu.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

@@ -1,6 +1,5 @@
-package com.cccloud.blogs.config.feign.baidu;
+package com.cccloud.blogs.open.baidu.commmons;
 
-import com.cccloud.blogs.commons.exceptions.BusinessException;
 import com.cccloud.blogs.commons.exceptions.SystemException;
 import lombok.Data;
 

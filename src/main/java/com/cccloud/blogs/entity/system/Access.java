@@ -1,9 +1,9 @@
 package com.cccloud.blogs.entity.system;
 
-import com.cccloud.blogs.config.feign.baidu.dto.IpLocationDto;
 import com.cccloud.blogs.easybatis.anno.table.Id;
 import com.cccloud.blogs.easybatis.anno.table.Table;
 import com.cccloud.blogs.easybatis.enums.IdType;
+import com.cccloud.blogs.open.baidu.dto.IpLocationDto;
 import lombok.Data;
 
 import java.io.Serializable;

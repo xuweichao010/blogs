@@ -12,7 +12,7 @@ import java.io.IOException;
  * 时间：2020/6/3 18:35
  * 描述：
  */
-public class Slf4jLogger extends feign.Logger {
+public class    Slf4jLogger extends feign.Logger {
 
     private final Logger logger;
 

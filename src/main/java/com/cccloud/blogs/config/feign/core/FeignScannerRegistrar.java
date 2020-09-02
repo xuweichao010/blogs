@@ -1,6 +1,9 @@
 package com.cccloud.blogs.config.feign.core;
 
 import com.cccloud.blogs.config.feign.FeignScan;
+import feign.Logger;
+import feign.codec.Decoder;
+import feign.codec.Encoder;
 import org.mybatis.spring.annotation.MapperScannerRegistrar;
 import org.mybatis.spring.mapper.MapperFactoryBean;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
@@ -24,6 +27,7 @@ import java.util.stream.Collectors;
  */
 public class FeignScannerRegistrar implements ImportBeanDefinitionRegistrar {
 
+
     @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry, BeanNameGenerator importBeanNameGenerator) {
         AnnotationAttributes mapperScanAttrs = AnnotationAttributes
@@ -38,13 +42,7 @@ public class FeignScannerRegistrar implements ImportBeanDefinitionRegistrar {
 
     void registerBeanDefinitions(AnnotationMetadata annoMeta, AnnotationAttributes annoAttrs,
                                  BeanDefinitionRegistry registry, String beanName) {
-        //定义一个
         BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(FeignScannerConfigurer.class);
-        //工厂Bean
-        Class<? extends FeignFactoryBean> mapperFactoryBeanClass = annoAttrs.getClass("factoryBean");
-        if (!MapperFactoryBean.class.equals(mapperFactoryBeanClass)) {
-            builder.addPropertyValue("factoryBean", mapperFactoryBeanClass);
-        }
         //包扫描信息
         List<String> basePackages = new ArrayList<>();
         basePackages.addAll(
@@ -53,6 +51,39 @@ public class FeignScannerRegistrar implements ImportBeanDefinitionRegistrar {
             basePackages.add(getDefaultBasePackage(annoMeta));
         }
         builder.addPropertyValue("basePackage", StringUtils.collectionToCommaDelimitedString(basePackages));
+
+        //factoryBean
+        Class<? extends FeignFactoryBean> mapperFactoryBeanClass = annoAttrs.getClass("factoryBean");
+        if (!MapperFactoryBean.class.equals(mapperFactoryBeanClass)) {
+            builder.addPropertyValue("factoryBean", mapperFactoryBeanClass);
+        }
+        //处理解析器
+        String decoderName = annoAttrs.getString("decoderName");
+        if (StringUtils.isEmpty(decoderName)) {
+            Class<? extends Decoder> decoderClass = annoAttrs.getClass("decoder");
+            decoderName = generateBaseBeanName(decoderClass);
+            registry.registerBeanDefinition(decoderName,
+                    BeanDefinitionBuilder.genericBeanDefinition(decoderClass).getBeanDefinition());
+        }
+        builder.addPropertyValue("decoderBeanName", decoderName);
+        //处理编码器
+        String encoderName = annoAttrs.getString("encoderName");
+        if (StringUtils.isEmpty(encoderName)) {
+            Class<? extends Encoder> encoderClass = annoAttrs.getClass("encoder");
+            encoderName = generateBaseBeanName(encoderClass);
+            registry.registerBeanDefinition(encoderName,
+                    BeanDefinitionBuilder.genericBeanDefinition(encoderClass).getBeanDefinition());
+        }
+        builder.addPropertyValue("encoderBeanName", encoderName);
+        //处理日志级别
+        Logger.Level level = annoAttrs.getEnum("level");
+        builder.addPropertyValue("level", level);
+        //处理日志框架
+        Class<? extends Logger> loggerClass = annoAttrs.getClass("logger");
+        String loggerName = generateBaseBeanName(loggerClass);
+        registry.registerBeanDefinition(loggerName,
+                BeanDefinitionBuilder.genericBeanDefinition(loggerClass).getBeanDefinition());
+        builder.addPropertyValue("loggerBeanName", loggerName);
         //注册bean的定义信息
         registry.registerBeanDefinition(beanName, builder.getBeanDefinition());
     }
@@ -68,5 +99,9 @@ public class FeignScannerRegistrar implements ImportBeanDefinitionRegistrar {
 
     private static String generateBaseBeanName(AnnotationMetadata importingClassMetadata) {
         return importingClassMetadata.getClassName() + "#" + MapperScannerRegistrar.class.getSimpleName();
+    }
+
+    public static String generateBaseBeanName(Class<?> classInfo) {
+        return classInfo.getSimpleName() + "#" + MapperScannerRegistrar.class.getSimpleName();
     }
 }

@@ -12,6 +12,5 @@ public class DefaultRequestInterceptor implements RequestInterceptor {
 
     @Override
     public void apply(RequestTemplate template) {
-
     }
 }
