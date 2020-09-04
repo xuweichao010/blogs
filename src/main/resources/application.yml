@@ -35,6 +35,8 @@ spring:
     poolPreparedStatements: false       #打开PSCache，并且指定每个连接上PSCache的大小
     maxPoolPreparedStatementPerConnectionSize: 20
     mapUnderscoreToCamelCase: true
+  application:
+    name: aaa
 # 系统的http调用配置
 rpc:
   baidu:  #百度调用

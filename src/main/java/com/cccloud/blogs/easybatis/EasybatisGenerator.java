@@ -14,8 +14,12 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.core.env.Environment;
+import org.springframework.util.StringUtils;
 
 import java.util.Collection;
 
@@ -27,12 +31,12 @@ import java.util.Collection;
  */
 @org.springframework.context.annotation.Configuration
 @EnableConfigurationProperties
-public class EasybatisGenerator implements ApplicationContextAware, ApplicationListener<ContextRefreshedEvent> {
+public class EasybatisGenerator implements ApplicationContextAware, ApplicationListener<ContextRefreshedEvent>, EnvironmentAware {
     private static final Logger logger = LoggerFactory.getLogger(EasybatisGenerator.class);
-    private static volatile boolean easybatisInit = true;
 
     private ApplicationContext applicationContext;
     private Configuration configuration;
+    private Environment environment;
 
     @Bean
     public EasybatisEnvironment easybatisEnvironment() {
@@ -42,20 +46,16 @@ public class EasybatisGenerator implements ApplicationContextAware, ApplicationL
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
         this.configuration = applicationContext.getBean(SqlSessionFactory.class).getConfiguration();
-        Collection<Class<?>> mappers = configuration.getMapperRegistry().getMappers();
-        if (!mappers.isEmpty() && easybatisInit) {
-            easybatisInit = false;
-            initEasybatis(configuration, mappers);
-        }
 
     }
 
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         this.configuration = applicationContext.getBean(SqlSessionFactory.class).getConfiguration();
         Collection<Class<?>> mappers = configuration.getMapperRegistry().getMappers();
-        if (!mappers.isEmpty() && easybatisInit) {
-            easybatisInit = false;
+        System.out.println("---------------------------------刷新完毕事件");
+        if (!mappers.isEmpty() && getApplicationId(environment).equals(contextRefreshedEvent.getApplicationContext().getId())) {
             initEasybatis(configuration, mappers);
+            System.out.println("---------------------------------spring boot 刷新完毕事件");
         }
     }
 
@@ -71,5 +71,15 @@ public class EasybatisGenerator implements ApplicationContextAware, ApplicationL
         configuration.addInterceptor(new EasybatisPlugin());
         configuration.getTypeHandlerRegistry().setDefaultEnumTypeHandler(EnumTypeHandler.class);
         logger.info("easybatis 初始化完毕");
+    }
+
+    @Override
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
+    }
+
+    private String getApplicationId(Environment environment) {
+        String name = environment.getProperty("spring.application.name");
+        return StringUtils.hasText(name) ? name : "application";
     }
 }
