@@ -40,8 +40,6 @@ public class ClassPathFeignScanner extends ClassPathBeanDefinitionScanner {
 
     private String loggerBeanName;
 
-    private String interceptorBeanName;
-
     public ClassPathFeignScanner(BeanDefinitionRegistry registry) {
         super(registry);
     }
@@ -77,8 +75,8 @@ public class ClassPathFeignScanner extends ClassPathBeanDefinitionScanner {
     private void processBeanDefinitions(Set<BeanDefinitionHolder> beanDefinitions) {
         GenericBeanDefinition definition;
         for (BeanDefinitionHolder holder : beanDefinitions) {
-            String url = getFeignUrl(holder);
-            String interceptorBeanName = getFeignInterceptorClass(holder);
+            String url = feignUrl(holder);
+            String interceptorBeanName = feignInterceptorBeanName(holder);
             definition = (GenericBeanDefinition) holder.getBeanDefinition();
             String beanClassName = definition.getBeanClassName();
             definition.getConstructorArgumentValues().addGenericArgumentValue(beanClassName);
@@ -90,12 +88,11 @@ public class ClassPathFeignScanner extends ClassPathBeanDefinitionScanner {
             definition.getPropertyValues().add("decoder", new RuntimeBeanReference(this.decoderBeanName));
             definition.getPropertyValues().add("level", this.level);
             definition.getPropertyValues().add("logger", new RuntimeBeanReference(this.loggerBeanName));
-
             definition.setLazyInit(false);
         }
     }
 
-    private String getFeignInterceptorClass(BeanDefinitionHolder beanDefinition) {
+    private String feignInterceptorBeanName(BeanDefinitionHolder beanDefinition) {
         Feign annotation = null;
         try {
             annotation = AnnotationUtils.findAnnotation(Class.forName(beanDefinition.getBeanDefinition().getBeanClassName()), Feign.class);
@@ -109,7 +106,7 @@ public class ClassPathFeignScanner extends ClassPathBeanDefinitionScanner {
         return interceptorBeanName;
     }
 
-    private String getFeignUrl(BeanDefinitionHolder beanDefinition) {
+    private String feignUrl(BeanDefinitionHolder beanDefinition) {
         Feign annotation = null;
         try {
             annotation = AnnotationUtils.findAnnotation(Class.forName(beanDefinition.getBeanDefinition().getBeanClassName()), Feign.class);

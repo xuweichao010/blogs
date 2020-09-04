@@ -1,12 +1,13 @@
 package com.cccloud.blogs;
 
 import com.cccloud.blogs.config.feign.FeignScan;
+import feign.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 
-@FeignScan
+@FeignScan(level = Logger.Level.FULL)
 @SpringBootApplication
 @EnableConfigurationProperties
 public class Application {
