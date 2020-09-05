@@ -1,4 +1,4 @@
-package com.cccloud.blogs.config.feign.core;
+package com.cccloud.blogs.feign.core;
 
 import feign.Logger;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProce
 /**
  * 作者：CC
  * 时间：2020/8/31 10:59
- * 描述：
+ * 描述：Feign默认扫描器的基本配置
  */
 @Setter
 public class FeignScannerConfigurer implements BeanDefinitionRegistryPostProcessor {

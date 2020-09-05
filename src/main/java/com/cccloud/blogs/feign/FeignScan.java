@@ -1,10 +1,10 @@
-package com.cccloud.blogs.config.feign;
+package com.cccloud.blogs.feign;
 
-import com.cccloud.blogs.config.feign.commons.DefaultDecoder;
-import com.cccloud.blogs.config.feign.commons.DefaultEncoder;
-import com.cccloud.blogs.config.feign.commons.Slf4jLogger;
-import com.cccloud.blogs.config.feign.core.FeignFactoryBean;
-import com.cccloud.blogs.config.feign.core.FeignScannerRegistrar;
+import com.cccloud.blogs.feign.commons.DefaultDecoder;
+import com.cccloud.blogs.feign.commons.DefaultEncoder;
+import com.cccloud.blogs.feign.commons.Slf4jLogger;
+import com.cccloud.blogs.feign.core.FeignFactoryBean;
+import com.cccloud.blogs.feign.core.FeignScannerRegistrar;
 import feign.Logger;
 import feign.codec.Decoder;
 import feign.codec.Encoder;

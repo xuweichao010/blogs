@@ -1,4 +1,4 @@
-package com.cccloud.blogs.config.feign.core;
+package com.cccloud.blogs.feign.core;
 
 import feign.Feign;
 import feign.Logger;
@@ -11,7 +11,7 @@ import org.springframework.beans.factory.FactoryBean;
 /**
  * 作者：CC
  * 时间：2020/8/31 10:43
- * 描述：
+ * 描述：Feign工厂Bean 用于创建代理对象
  */
 @Setter
 public class FeignFactoryBean<T> implements FactoryBean<T> {

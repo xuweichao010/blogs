@@ -1,6 +1,6 @@
 package com.cccloud.blogs;
 
-import com.cccloud.blogs.config.feign.FeignScan;
+import com.cccloud.blogs.feign.FeignScan;
 import feign.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

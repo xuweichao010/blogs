@@ -1,6 +1,6 @@
-package com.cccloud.blogs.config.feign.core;
+package com.cccloud.blogs.feign.core;
 
-import com.cccloud.blogs.config.feign.Feign;
+import com.cccloud.blogs.feign.Feign;
 import feign.Logger;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +23,7 @@ import java.util.Set;
 /**
  * 作者：CC
  * 时间：2020/8/31 11:11
- * 描述：
+ * 描述：Feign注解扫描器
  */
 
 @Setter

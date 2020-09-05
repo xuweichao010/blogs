@@ -1,6 +1,6 @@
-package com.cccloud.blogs.config.feign.core;
+package com.cccloud.blogs.feign.core;
 
-import com.cccloud.blogs.config.feign.FeignScan;
+import com.cccloud.blogs.feign.FeignScan;
 import feign.Logger;
 import feign.codec.Decoder;
 import feign.codec.Encoder;
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 /**
  * 作者：CC
  * 时间：2020/8/31 10:47
- * 描述：
+ * 描述：处理FeignScan注解上的信息
  */
 public class FeignScannerRegistrar implements ImportBeanDefinitionRegistrar {
 
