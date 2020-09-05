@@ -121,7 +121,9 @@ public class ClassPathFeignScanner extends ClassPathBeanDefinitionScanner {
     }
 
     public void registerFilters() {
+        this.resetFilters(true);
         this.addIncludeFilter(new AnnotationTypeFilter(Feign.class));
+
     }
 
 

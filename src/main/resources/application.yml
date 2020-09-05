@@ -4,6 +4,8 @@ server:
     session:
       timeout: 120m # 设置session的有效期
 spring:
+  application:
+    name: 1231231
   profiles:
     active: dev #激活的配置文件
   jackson:
