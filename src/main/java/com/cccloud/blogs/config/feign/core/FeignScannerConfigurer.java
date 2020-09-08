@@ -1,4 +1,4 @@
-package com.cccloud.blogs.feign.core;
+package com.cccloud.blogs.config.feign.core;
 
 import feign.Logger;
 import lombok.Setter;

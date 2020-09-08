@@ -1,4 +1,4 @@
-package com.cccloud.blogs.feign.commons;
+package com.cccloud.blogs.config.feign.commons;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;

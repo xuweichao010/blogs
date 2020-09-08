@@ -1,8 +1,8 @@
-package com.cccloud.blogs.feign;
+package com.cccloud.blogs.config.feign;
 
-import com.cccloud.blogs.feign.commons.DefaultDecoder;
-import com.cccloud.blogs.feign.commons.DefaultEncoder;
-import com.cccloud.blogs.feign.commons.DefaultRequestInterceptor;
+import com.cccloud.blogs.config.feign.commons.DefaultDecoder;
+import com.cccloud.blogs.config.feign.commons.DefaultEncoder;
+import com.cccloud.blogs.config.feign.commons.DefaultRequestInterceptor;
 import feign.RequestInterceptor;
 import feign.codec.Decoder;
 import feign.codec.Encoder;

@@ -1,6 +1,6 @@
-package com.cccloud.blogs.feign.core;
+package com.cccloud.blogs.config.feign.core;
 
-import com.cccloud.blogs.feign.Feign;
+import com.cccloud.blogs.config.feign.Feign;
 import feign.Logger;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

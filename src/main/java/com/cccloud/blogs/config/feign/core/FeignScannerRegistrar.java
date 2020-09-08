@@ -1,6 +1,6 @@
-package com.cccloud.blogs.feign.core;
+package com.cccloud.blogs.config.feign.core;
 
-import com.cccloud.blogs.feign.FeignScan;
+import com.cccloud.blogs.config.feign.FeignScan;
 import feign.Logger;
 import feign.codec.Decoder;
 import feign.codec.Encoder;

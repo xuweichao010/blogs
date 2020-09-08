@@ -1,6 +1,6 @@
 package com.cccloud.blogs.open.baidu;
 
-import com.cccloud.blogs.feign.Feign;
+import com.cccloud.blogs.config.feign.Feign;
 import com.cccloud.blogs.open.baidu.commmons.BaiduInterceptor;
 import com.cccloud.blogs.open.baidu.commmons.BaiduJsonMessage;
 import com.cccloud.blogs.open.baidu.dto.IpLocationDto;
