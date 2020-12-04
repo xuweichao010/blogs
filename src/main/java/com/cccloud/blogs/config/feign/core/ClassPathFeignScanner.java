@@ -25,7 +25,6 @@ import java.util.Set;
  * 时间：2020/8/31 11:11
  * 描述：Feign注解扫描器
  */
-
 @Setter
 @Slf4j
 public class ClassPathFeignScanner extends ClassPathBeanDefinitionScanner {
