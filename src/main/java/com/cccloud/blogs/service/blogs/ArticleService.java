@@ -20,7 +20,7 @@ public class ArticleService {
 
 
     public List<Article> list(ArticleFilterDto filter) {
-        return articleMapper.list(filter);
+        return articleMapper.list(filter,"12321312");
     }
 
 

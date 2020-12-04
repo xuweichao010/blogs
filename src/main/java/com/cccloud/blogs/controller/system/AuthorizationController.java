@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 public class AuthorizationController {
     @PostMapping("/login")
     @ApiOperation("用户登录")
-    public JsonMessage<Void> login(LoginDto login) {
+    public JsonMessage<Void> login(@RequestBody LoginDto login) {
         return JsonMessage.succeed();
     }
 

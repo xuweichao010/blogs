@@ -93,37 +93,38 @@ public class ClassPathFeignScanner extends ClassPathBeanDefinitionScanner {
     }
 
     private String feignInterceptorBeanName(BeanDefinitionHolder beanDefinition) {
-        Feign annotation = null;
-        try {
-            annotation = AnnotationUtils.findAnnotation(Class.forName(beanDefinition.getBeanDefinition().getBeanClassName()), Feign.class);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(beanDefinition.getBeanDefinition().getBeanClassName(), e);
-        }
-        String interceptorBeanName = annotation.interceptor().getSimpleName();
-        if (!this.getRegistry().containsBeanDefinition(interceptorBeanName)) {
-            getRegistry().registerBeanDefinition(interceptorBeanName, BeanDefinitionBuilder.genericBeanDefinition(annotation.interceptor()).getBeanDefinition());
+        Feign feign = feign(beanDefinition);
+        String interceptorBeanName = feign.interceptor().getSimpleName();
+        if (this.getRegistry() != null && !this.getRegistry().containsBeanDefinition(interceptorBeanName)) {
+            getRegistry().registerBeanDefinition(interceptorBeanName, BeanDefinitionBuilder.genericBeanDefinition(feign.interceptor()).getBeanDefinition());
         }
         return interceptorBeanName;
     }
 
     private String feignUrl(BeanDefinitionHolder beanDefinition) {
-        Feign annotation = null;
-        try {
-            annotation = AnnotationUtils.findAnnotation(Class.forName(beanDefinition.getBeanDefinition().getBeanClassName()), Feign.class);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(beanDefinition.getBeanDefinition().getBeanClassName(), e);
-        }
-        String propertyUrl = getEnvironment().getProperty(annotation.url());
+        Feign feign = feign(beanDefinition);
+        String propertyUrl = getEnvironment().getProperty(feign.url());
         if (StringUtils.hasText(propertyUrl)) {
             return propertyUrl;
         }
-        return annotation.url();
+        return feign.url();
     }
 
     public void registerFilters() {
         this.resetFilters(true);
         this.addIncludeFilter(new AnnotationTypeFilter(Feign.class));
 
+    }
+
+    private Feign feign(BeanDefinitionHolder beanDefinition) {
+        Feign annotation = null;
+        try {
+            annotation = AnnotationUtils.findAnnotation(Class.forName(beanDefinition.getBeanDefinition().getBeanClassName()), Feign.class);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(beanDefinition.getBeanDefinition().getBeanClassName(), e);
+        }
+        if (annotation == null) throw new RuntimeException("找不到注解信息" + Feign.class.getName());
+        return annotation;
     }
 
 

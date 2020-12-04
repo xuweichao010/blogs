@@ -1,6 +1,7 @@
 package com.cccloud.blogs.controller.user.menu;
 
 import com.cccloud.blogs.entity.user.Menu;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
@@ -13,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 @Data
 public class MenuDto {
 
+    @ApiModelProperty("菜单ID")
     private Long id;
     /**
      * 名称

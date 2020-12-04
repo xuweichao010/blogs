@@ -35,14 +35,13 @@ spring:
     poolPreparedStatements: false       #打开PSCache，并且指定每个连接上PSCache的大小
     maxPoolPreparedStatementPerConnectionSize: 20
     mapUnderscoreToCamelCase: true
-  application:
-    name: aaa
 # 系统的http调用配置
 rpc:
   baidu:  #百度调用
     map:  #百度地图调用
       sk: sk
       ak: ak
+      url: url
 # myBatis 配置
 mybatis: # myBatis 配置
   configuration:

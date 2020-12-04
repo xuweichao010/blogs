@@ -6,6 +6,7 @@ import com.cccloud.blogs.easybatis.anno.condition.Count;
 import com.cccloud.blogs.easybatis.interfaces.BaseMapper;
 import com.cccloud.blogs.entity.blogs.Article;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -16,8 +17,9 @@ import java.util.List;
  */
 @Mapper
 public interface ArticleMapper extends BaseMapper<Article, Long> {
-    @SelectSql
-    List<Article> list(ArticleFilterDto filter);
+
+    @Select("SELECT * FROM t_article WHERE account_id = #{filter.accountId} AND group_id = #{groupId}")
+    List<Article> list(ArticleFilterDto filter,String groupId);
 
     @SelectSql
     @Count

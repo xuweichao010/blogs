@@ -1,6 +1,7 @@
 package com.cccloud.blogs.config.security;
 
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -9,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @version 0.6.0-SNAPSHOT
  */
-//@Component
+@Component
 public class CustomJsonAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     @Override
